@@ -1,8 +1,11 @@
+import 'package:bishop/bishop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chess/helper/helper_methods.dart';
 import 'package:flutter_chess/main_screens/about_screen.dart';
 import 'package:flutter_chess/main_screens/game_time_screen.dart';
 import 'package:flutter_chess/main_screens/settings_screen.dart';
+import 'package:flutter_chess/providers/game_provider.dart';
+import 'package:provider/provider.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -14,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final gameProvider = context.read<GameProvider>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.greenAccent,
@@ -29,12 +33,14 @@ class _HomeScreenState extends State<HomeScreen> {
               buildGameType(label: 'Play vs Computer', 
               icon: Icons.computer,
                onTap: (){
+                gameProvider.setVsComputer(value: true);
                 //navigate to setup game time screen
                 Navigator.push(context, MaterialPageRoute(builder: (context)=> GameTimeScreen(),));
                }),
           
               buildGameType(label: 'Play vs Human', icon: Icons.person, 
               onTap: (){
+                gameProvider.setVsComputer(value: false);
                 //navigate to setup game time screen
                 Navigator.push(context, MaterialPageRoute(builder: (context)=> GameTimeScreen(),));
               }),
