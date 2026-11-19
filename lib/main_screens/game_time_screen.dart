@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chess/helper/helper_methods.dart';
+import 'package:flutter_chess/main_screens/game_start_up_screen.dart';
 
 class GameTimeScreen extends StatefulWidget {
   const new({super.key});
@@ -36,7 +37,9 @@ class _GameTimeScreenState extends State<GameTimeScreen> {
           return buildGameType(label: label,
            gameTime: gameTime,
             onTap: ( ) {
-
+              Navigator.push(context, MaterialPageRoute(builder: (context) => GameStartUpScreen(),
+              ),
+              );
             },
             );
 
