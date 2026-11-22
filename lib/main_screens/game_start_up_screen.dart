@@ -184,6 +184,7 @@ class _GameStartUpScreenState extends State<GameStartUpScreen> {
 
           ElevatedButton(onPressed: (){
             //navigate to game screen
+            playGame(gameProvider: gameProvider);
           }, child: Text('play'),
           
           ),
@@ -192,6 +193,26 @@ class _GameStartUpScreenState extends State<GameStartUpScreen> {
         ),
       ),
     );
+  }
+
+  void playGame({required GameProvider gameProvider,}) {
+    //check if is customtime
+    if(widget.isCustomTime){
+      //check old timer is greater than 0
+      if(whiteTimeInMinutes<=0 || blackTimeInMinutes<=0){
+        //show snackbar
+        showSnackBar(context: context, content: 'Time cannot be 0');
+        return;
+      }
+    }
+
+    //1.start loading dialog
+    gameProvider.setIsLoading(value: true);
+
+    //2.save time and player color for both players
+
+    //3.navigate to game screen
+    Navigator.pushNamed(context, Constants.gameScreen);
   }
 }
 
