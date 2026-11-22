@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chess/constants.dart';
 import 'package:flutter_chess/helper/helper_methods.dart';
 import 'package:flutter_chess/main_screens/game_start_up_screen.dart';
 import 'package:flutter_chess/providers/game_provider.dart';
@@ -40,13 +41,30 @@ class _GameTimeScreenState extends State<GameTimeScreen> {
 
           final String gameTime = gameTimes[index].split(' ')[1];
 
+
+
           return buildGameType(label: label,
            gameTime: gameTime,
             onTap: ( ) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => GameStartUpScreen(),
+
+              if (label== Constants.custom){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => GameStartUpScreen(
+                    isCustomTime: true,
+                    gameTime: gameTime,
+                  ),
               ),
               );
-            },
+
+              }
+              else {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => GameStartUpScreen(
+                    isCustomTime: false,
+                    gameTime: gameTime,
+                  ),
+              ),
+              );
+            }
+              }
             );
 
         }),
