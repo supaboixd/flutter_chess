@@ -24,7 +24,6 @@ class _GameStartUpScreenState extends State<GameStartUpScreen> {
   int blackTimeInMinutes = 0;
   @override
   Widget build(BuildContext context) {
-    final gameProvider = context.read<GameProvider>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.greenAccent,
@@ -37,165 +36,162 @@ class _GameStartUpScreenState extends State<GameStartUpScreen> {
 
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            // radioListTile
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: PlayerColorRadioButton(title: 'Play as ${PlayerColor.white.name}',
-                   value: PlayerColor.white, 
-                   groupValue: playerColorGroup,
-                    onChanged: (value){
-                      setState(() {
-                        playerColorGroup = value !;
-                      });
-                    },
-                    ),
-                ),
+      body: Consumer<GameProvider>(
 
-                widget.isCustomTime ?
-              BuildCustomTime(
-                time: whiteTimeInMinutes.toString(), onLeftArrowClicked: (){
-                  setState(() {
-                    whiteTimeInMinutes--;
-                  });
-                }, onRightArrowClicked: (){
-                  setState(() {
-                    whiteTimeInMinutes++;
-                  });
-                },
-              )
-
-
-                :Container(
-                  height: 40,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 0.5, color: Colors.black), borderRadius: BorderRadius.circular(10),),
-                    child: Padding(padding: const EdgeInsets.all(6.0),
-                  child: Center(child: Text(widget.gameTime, textAlign: TextAlign.center,
-                   style: TextStyle(fontSize: 20, color: Colors.black),
-                  ),
-                  ),
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: PlayerColorRadioButton(title: 'Play as ${PlayerColor.black.name}',
-                   value: PlayerColor.black, 
-                   groupValue: playerColorGroup,
-                    onChanged: (value){
-                      setState(() {
-                      playerColorGroup = value !;
-                    });
-                    },
-                  ),
-                ),
-
-              widget.isCustomTime ?
-              BuildCustomTime(
-                time: blackTimeInMinutes.toString(), onLeftArrowClicked: (){
-                  setState(() {
-                    blackTimeInMinutes--;
-                  });
-                }, onRightArrowClicked: (){
-                  setState(() {
-                    blackTimeInMinutes++;
-                  });
-                },
-              )
-
-
-                :
-
-
-                Container(
-                  height: 40,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 0.5, color: Colors.black), borderRadius: BorderRadius.circular(10),),
-                    child: Padding(padding: const EdgeInsets.all(6.0),
-                  child: Center(child: Text(widget.gameTime, textAlign: TextAlign.center,
-                   style: TextStyle(fontSize: 20, color: Colors.black),
-                  ),
-                  ),
-                  ),
-                )
-              ],
-            ),
-
-          gameProvider.vsComputer ? 
-          Column(
+        builder: (context, gameProvider, child,){
+          return
+          Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
             children: [
-              Padding(
-                padding:  EdgeInsets.all(20.0),
-                child: Text('Game Difficulty', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,),),
-              ),
-
+              // radioListTile
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GameLevelRadioButton(title: GameDifficulty.easy.name,
-                   value: GameDifficulty.easy, 
-                   groupValue: gameLevelGroup, 
-                   onChanged: (value){
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: PlayerColorRadioButton(title: 'Play as ${PlayerColor.white.name}',
+                     value: PlayerColor.white, 
+                     groupValue: gameProvider.playerColor,
+                      onChanged: (value){
+                        gameProvider.setPlayerColor(player: 0);
+                      },
+                      ),
+                  ),
+        
+                  widget.isCustomTime ?
+                BuildCustomTime(
+                  time: whiteTimeInMinutes.toString(), onLeftArrowClicked: (){
                     setState(() {
-                      gameLevelGroup = value!;
+                      whiteTimeInMinutes--;
                     });
-                   }),
-
-                   const SizedBox(width: 10,),
-                   GameLevelRadioButton(title: GameDifficulty.medium.name,
-                   value: GameDifficulty.medium, 
-                   groupValue: gameLevelGroup, 
-                   onChanged: (value){
+                  }, onRightArrowClicked: (){
                     setState(() {
-                      gameLevelGroup = value!;
+                      whiteTimeInMinutes++;
                     });
-                   }),
-
-                   const SizedBox(width: 10,),
-                   GameLevelRadioButton(title: GameDifficulty.hard.name,
-                   value: GameDifficulty.hard, 
-                   groupValue: gameLevelGroup, 
-                   onChanged: (value){
-                    setState(() {
-                      gameLevelGroup = value!;
-                    });
-                   }),
+                  },
+                )
+        
+        
+                  :Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 0.5, color: Colors.black), borderRadius: BorderRadius.circular(10),),
+                      child: Padding(padding: const EdgeInsets.all(6.0),
+                    child: Center(child: Text(widget.gameTime, textAlign: TextAlign.center,
+                     style: TextStyle(fontSize: 20, color: Colors.black),
+                    ),
+                    ),
+                    ),
+                  )
                 ],
-              )
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: PlayerColorRadioButton(title: 'Play as ${PlayerColor.black.name}',
+                     value: PlayerColor.black, 
+                     groupValue: gameProvider.playerColor,
+                      onChanged: (value){
+                      gameProvider.setPlayerColor(player: 1);
+                      },
+                    ),
+                  ),
+        
+                widget.isCustomTime ?
+                BuildCustomTime(
+                  time: blackTimeInMinutes.toString(), onLeftArrowClicked: (){
+                    setState(() {
+                      blackTimeInMinutes--;
+                    });
+                  }, onRightArrowClicked: (){
+                    setState(() {
+                      blackTimeInMinutes++;
+                    });
+                  },
+                )
+        
+        
+                  :
+        
+        
+                  Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 0.5, color: Colors.black), borderRadius: BorderRadius.circular(10),),
+                      child: Padding(padding: const EdgeInsets.all(6.0),
+                    child: Center(child: Text(widget.gameTime, textAlign: TextAlign.center,
+                     style: TextStyle(fontSize: 20, color: Colors.black),
+                    ),
+                    ),
+                    ),
+                  )
+                ],
+              ),
+        
+            gameProvider.vsComputer ? 
+            Column(
+              children: [
+                const Padding(
+                  padding:  EdgeInsets.all(20.0),
+                  child: Text('Game Difficulty', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,),),
+                ),
+        
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GameLevelRadioButton(title: GameDifficulty.easy.name,
+                     value: GameDifficulty.easy, 
+                     groupValue: gameProvider.gameDifficulty, 
+                     onChanged: (value){
+                      gameProvider.setGameDifficulty(level: 1);
+                     }),
+        
+                     const SizedBox(width: 10,),
+                     GameLevelRadioButton(title: GameDifficulty.medium.name,
+                     value: GameDifficulty.medium, 
+                     groupValue: gameProvider.gameDifficulty,
+                     onChanged: (value){
+                      gameProvider.setGameDifficulty(level: 2);
+                     }),
+        
+                     const SizedBox(width: 10,),
+                     GameLevelRadioButton(title: GameDifficulty.hard.name,
+                     value: GameDifficulty.hard, 
+                     groupValue: gameProvider.gameDifficulty,
+                     onChanged: (value){
+                      gameProvider.setGameDifficulty(level: 3);
+                     }),
+                  ],
+                )
+              ],
+            ) : const SizedBox.shrink(),
+        
+            const SizedBox(height: 20,
+            ),
+        
+            ElevatedButton(onPressed: (){
+              //navigate to game screen
+              playGame(gameProvider: gameProvider);
+            }, child: Text('play'),
+            
+            ),
+        
             ],
-          ) : const SizedBox.shrink(),
-
-          const SizedBox(height: 20,
           ),
+        );
+        },
 
-          ElevatedButton(onPressed: (){
-            //navigate to game screen
-            playGame(gameProvider: gameProvider);
-          }, child: Text('play'),
-          
-          ),
-
-          ],
-        ),
       ),
     );
   }
 
-  void playGame({required GameProvider gameProvider,}) {
+  void playGame({required GameProvider gameProvider,}) async {
     //check if is customtime
     if(widget.isCustomTime){
       //check old timer is greater than 0
@@ -204,15 +200,20 @@ class _GameStartUpScreenState extends State<GameStartUpScreen> {
         showSnackBar(context: context, content: 'Time cannot be 0');
         return;
       }
-    }
-
+      
     //1.start loading dialog
     gameProvider.setIsLoading(value: true);
 
     //2.save time and player color for both players
+    await gameProvider.setGameTime(newSavedWhitesTime: whiteTimeInMinutes.toString(), newSavedBlacksTime: blackTimeInMinutes.toString(),);
 
     //3.navigate to game screen
     Navigator.pushNamed(context, Constants.gameScreen);
+    }
+    else{
+      // not custom time/other methods
+      
+    }
   }
 }
 

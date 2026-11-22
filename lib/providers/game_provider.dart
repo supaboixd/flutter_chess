@@ -1,5 +1,4 @@
-import 'dart:ffi';
-
+import 'package:bishop/bishop.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_chess/constants.dart';
 import 'package:squares/squares.dart';
@@ -7,9 +6,10 @@ import 'package:squares/squares.dart';
 class GameProvider extends ChangeNotifier{
   bool _vsComputer = false;
   bool _isLoading = false;
-
+  int _gameLevel = 1; 
   int _player = Squares.white;
   PlayerColor _playerColor = PlayerColor.white;
+  GameDifficulty _gameDifficulty = GameDifficulty.easy;
 
   Duration _whitesTime = Duration.zero;
   Duration _blacksTime = Duration.zero;
@@ -17,6 +17,9 @@ class GameProvider extends ChangeNotifier{
   // Saved time
    Duration _savedWhitesTime = Duration.zero;
    Duration _savedBlacksTime = Duration.zero;
+
+   int get gameLevel => _gameLevel;
+   GameDifficulty get gameDifficulty =>_gameDifficulty;
 
    int get player => _player;
    PlayerColor get playerColor => _playerColor;
@@ -61,6 +64,20 @@ class GameProvider extends ChangeNotifier{
 
   void setBlacksTime(Duration time){
     _blacksTime = time;
+    notifyListeners();
+  }
+
+  //set playerColor
+  void setPlayerColor({required int player}){
+    _player = player;
+    _playerColor = player == Squares.white ? PlayerColor.white : PlayerColor.black;
+    notifyListeners();
+  }
+
+  //set difficulty
+  void setGameDifficulty ({required int level}){
+    _gameLevel = level;
+    _gameDifficulty = level == 1 ? GameDifficulty.easy : level == 2 ? GameDifficulty.medium : GameDifficulty.hard;
     notifyListeners();
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:bishop/bishop.dart' as bishop;
+import 'package:flutter_chess/providers/game_provider.dart';
 import 'package:flutter_chess/service/assets_manager.dart';
+import 'package:provider/provider.dart';
 import 'package:square_bishop/square_bishop.dart';
 import 'package:squares/squares.dart';
 
@@ -54,6 +56,10 @@ late bishop.Game game;
   
   @override
   Widget build(BuildContext context) {
+    final gameProvider= context.read<GameProvider>();
+
+    print('whitesTime : ${gameProvider.whitesTime}');
+    print('blacksTime : ${gameProvider.blacksTime}');
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(icon: Icon(Icons.arrow_back, color: Colors.white,), 
@@ -80,7 +86,6 @@ late bishop.Game game;
           children: [
         
             //Opponent data
-            //Dummy texts
             ListTile(
               leading: CircleAvatar(
                 radius: 25,
@@ -88,7 +93,7 @@ late bishop.Game game;
               ),
               title: const Text('Stockfish'),
               subtitle:  const Text('Rating: 3000'),
-              trailing: const Text('5:00'),
+              trailing: Text(gameProvider.blacksTime.toString(), style: TextStyle(fontSize: 16),),
             ),
         
         
@@ -111,7 +116,6 @@ late bishop.Game game;
             ),
         
             //User data
-            //Dummy texts
             ListTile(
               leading: CircleAvatar(
                 radius: 25,
